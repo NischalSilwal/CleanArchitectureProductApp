@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureApp.Application.Queries
+namespace CleanArchitectureApp.Queries
 {
     public class GetAllProductsQuery : IRequest<IEnumerable<GetAllProductDTO>> { }
 }

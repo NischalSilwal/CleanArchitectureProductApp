@@ -1,10 +1,24 @@
 ﻿using CleanArchitectureApp.Application.DTOs;
 using CleanArchitectureApp.Domain.Model;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CleanArchitectureApp.Application.Mappers
 {
     public static class ProductMapper
     {
+        // Map to create a new Product entity from ProductDTO and imagePath
+        public static Product MapToUpdateProduct(ProductDTO productDTO, Product product, string imagePath)
+        {
+            product.Name = productDTO.Name;
+            product.Price = productDTO.Price;
+            product.Description = productDTO.Description;
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                product.ImagePath = imagePath;
+            }
+            return product;  // Return the updated product
+        }
         public static Product MapToProduct(ProductDTO productDTO, string imagePath)
         {
             return new Product
@@ -12,15 +26,29 @@ namespace CleanArchitectureApp.Application.Mappers
                 Name = productDTO.Name,
                 Price = productDTO.Price,
                 Description = productDTO.Description,
-                ImagePath = imagePath // Full image path including base URL
+                ImagePath = imagePath // Full image path
             };
         }
-        /*
-        public static UpdateroductDTO UpdateToDto(Product product)
-        {
-            if (product == null) return null;
 
-            return new UpdateroductDTO
+
+        // Method for updating an existing product
+        public static void MapToExistingProduct(ProductDTO productDTO, Product product, string imagePath = null)
+        {
+            product.Name = productDTO.Name;
+            product.Price = productDTO.Price;
+            product.Description = productDTO.Description;
+
+            // Update the ImagePath only if a new image path is provided
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                product.ImagePath = imagePath;
+            }
+        }
+
+        // Other methods remain the same
+        public static GetAllProductDTO ToDto(Product product)
+        {
+            return new GetAllProductDTO
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -30,12 +58,11 @@ namespace CleanArchitectureApp.Application.Mappers
             };
         }
 
-        */
-        public static GetAllProductDTO ToDto(Product product)
+        public static GetProductByIdDTO ToGetProductByIdDTO(Product product)
         {
-            return new GetAllProductDTO
+            return new GetProductByIdDTO
             {
-                Id = product.Id,  // Ensure you include Id mapping
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
@@ -43,13 +70,9 @@ namespace CleanArchitectureApp.Application.Mappers
             };
         }
 
-        // Method to map a collection of Product to a collection of GetAllProductDTO
         public static IEnumerable<GetAllProductDTO> ToDto(IEnumerable<Product> products)
         {
-            return products.Select(product => ToDto(product)).ToList(); // Correctly using the ToDto(Product) method
+            return products.Select(product => ToDto(product)).ToList();
         }
-
-
     }
 }
-

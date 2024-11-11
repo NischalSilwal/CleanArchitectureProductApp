@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureApp.Application.Commands
+namespace CleanArchitectureApp.Commands
 {
     public class CreateProductCommand : IRequest<int>
     {

@@ -1,8 +1,8 @@
 ﻿
 using CleanArchitectureApp.Application.DTOs;
 using CleanArchitectureApp.Application.Mappers;
-using CleanArchitectureApp.Application.Queries;
 using CleanArchitectureApp.Domain.Interfaces;
+using CleanArchitectureApp.Queries;
 using MediatR;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
-﻿
-using CleanArchitectureApp.Application.Commands;
-using CleanArchitectureApp.Application.Mappers;
+﻿using CleanArchitectureApp.Application.Mappers;
+using CleanArchitectureApp.Commands;
 using CleanArchitectureApp.Domain.Interfaces;
 using CleanArchitectureApp.Domain.Model;
 using MediatR;
@@ -40,7 +39,7 @@ namespace CleanArchitectureApp.Application.Handlers
             }
 
             // Update to use API's correct base URL
-            var apiBaseUrl = "https://localhost:7114"; // API URL
+            var apiBaseUrl = "https://localhost:7288"; // API URL
             var relativePath = $"/UploadedImages/{fileName}";
             var fullImagePath = $"{apiBaseUrl}{relativePath}";
 

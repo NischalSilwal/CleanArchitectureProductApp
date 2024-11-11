@@ -1,6 +1,6 @@
-﻿using CleanArchitectureApp.Application.Commands;
-using CleanArchitectureApp.Application.DTOs;
-using CleanArchitectureApp.Application.Queries;
+﻿using CleanArchitectureApp.Application.DTOs;
+using CleanArchitectureApp.Commands;
+using CleanArchitectureApp.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +36,48 @@ namespace CleanArchitectureApp.Controllers
             var products = await _mediator.Send(new GetAllProductsQuery());
 
             return Ok(products);
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var product = await _mediator.Send(new GetProductByIdQuery(id));
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+        // Update Product (with ImageFile)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] ProductDTO productDTO)
+        {
+            /*
+            if (productDTO.ImageFile != null && productDTO.ImageFile.Length == 0)
+            {
+                return BadRequest("Invalid image file.");
+            }
+            */
+            var result = await _mediator.Send(new UpdateProductCommand(id, productDTO));
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        //Delete Product 
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _mediator.Send(new DeleteProductCommand(id));
+            if (!result)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }
