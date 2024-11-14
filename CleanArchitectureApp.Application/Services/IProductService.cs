@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureApp.Domain.Interfaces
+namespace CleanArchitectureApp.Application.Services
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         Task<int> AddProductAsync(Product product);
         Task<Product> GetProductByIdAsync(int id);
-        Task<IEnumerable<Product>> GetProductByIdAsync();
+        Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
     }

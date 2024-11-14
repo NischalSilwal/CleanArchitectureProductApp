@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitectureApp.Infrastructure.Repositories
 {
-    class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
         public UserRepository(ApplicationDbContext applicationDbContext)

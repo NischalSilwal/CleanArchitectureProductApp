@@ -9,25 +9,26 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanArchitectureApp.Commands;
+using CleanArchitectureApp.Application.Services;
 
 namespace CleanArchitectureApp.Handlers
 {
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, bool>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
         private readonly IWebHostEnvironment _env;
         private readonly string _apiBaseUrl = "https://localhost:7288"; // Define API base URL here
 
-        public UpdateProductHandler(IProductRepository productRepository, IWebHostEnvironment env)
+        public UpdateProductHandler(IProductService productService, IWebHostEnvironment env)
         {
-            _productRepository = productRepository;
+            _productService = productService;
             _env = env;
         }
 
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             // Fetch the existing product
-            var product = await _productRepository.GetProductByIdAsync(request.Id);
+            var product = await _productService.GetProductByIdAsync(request.Id);
             if (product == null) return false;
 
             string fullImagePath = null;
@@ -68,7 +69,7 @@ namespace CleanArchitectureApp.Handlers
             ProductMapper.MapToUpdateProduct(request.ProductDTO, product, fullImagePath);
 
             // Update the product in the repository
-            return await _productRepository.UpdateProductAsync(product);
+            return await _productService.UpdateProductAsync(product);
         }
     }
 }

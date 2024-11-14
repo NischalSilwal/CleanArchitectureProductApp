@@ -17,7 +17,7 @@ namespace CleanArchitectureApp.Infrastructure.Repositories
         {
             return await _dbContext.Products.FindAsync(id);
         }
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IEnumerable<Product>> GetProductByIdAsync()
         {
             return await _dbContext.Products.ToListAsync();
         }

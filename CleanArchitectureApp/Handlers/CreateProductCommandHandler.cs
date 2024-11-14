@@ -1,4 +1,5 @@
 ﻿using CleanArchitectureApp.Application.Mappers;
+using CleanArchitectureApp.Application.Services;
 using CleanArchitectureApp.Commands;
 using CleanArchitectureApp.Domain.Interfaces;
 using CleanArchitectureApp.Domain.Model;
@@ -9,14 +10,14 @@ namespace CleanArchitectureApp.Application.Handlers
 {
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
         private readonly string _imageUploadPath;
   
 
-        public CreateProductHandler(IProductRepository productRepository)
+        public CreateProductHandler(IProductService productService)
         {
 
-            _productRepository = productRepository;
+            _productService = productService;
   
             // Set the upload path to the "wwwroot/UploadedImages" directory
             _imageUploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadedImages");
@@ -56,7 +57,7 @@ namespace CleanArchitectureApp.Application.Handlers
             var product = ProductMapper.MapToProduct(request.ProductDTO, fullImagePath);
 
             // var product = _mapper.Map<Product>(request);
-            return await _productRepository.AddProductAsync(product);
+            return await _productService.AddProductAsync(product);
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿
 using CleanArchitectureApp.Application.DTOs;
 using CleanArchitectureApp.Application.Mappers;
+using CleanArchitectureApp.Application.Services;
 using CleanArchitectureApp.Domain.Interfaces;
 using CleanArchitectureApp.Queries;
 using MediatR;
@@ -14,13 +15,13 @@ namespace CleanArchitectureApp.Application.Handlers
 {
     public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<GetAllProductDTO>>
     {
-        private readonly IProductRepository _productRepository;
-    
+        private readonly IProductService _productService;
 
-        public GetAllProductsHandler(IProductRepository productRepository)
+
+        public GetAllProductsHandler(IProductService productService)
         {
-            _productRepository = productRepository;
-          
+            _productService = productService;
+
         }
 
         /*
@@ -43,7 +44,7 @@ namespace CleanArchitectureApp.Application.Handlers
         */
         public async Task<IEnumerable<GetAllProductDTO>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAllProductsAsync();
+            var products = await _productService.GetAllProductsAsync();
             return ProductMapper.ToDto(products); // Now returns IEnumerable<GetAllProductDTO>
         }
 
