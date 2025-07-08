@@ -72,3 +72,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace CleanArchitectureApp
+{
+    public partial class Program { }
+}
