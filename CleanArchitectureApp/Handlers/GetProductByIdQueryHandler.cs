@@ -15,17 +15,7 @@ namespace CleanArchitectureApp.Application.Handlers
         {
             _productService = productService;
         }
-        /*
-        public Task<GetProductByIdDTO> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
-        {
-            var product = _productRepository.GetProductByIdAsync(request.Id);
-            if (product == null) 
-            {
-                throw new Exception($"Product with ID {request.Id} not found.");
-            }
-            return ProductMapper.ToGetProductByIdDTO(product);
-        }
-        */
+        
         public async Task<GetProductByIdDTO> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             var product = await _productService.GetProductByIdAsync(request.Id);
