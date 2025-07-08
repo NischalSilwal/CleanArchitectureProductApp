@@ -21,7 +21,7 @@ namespace CleanArchitectureApp.Application.Services
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _productRepository.GetProductByIdAsync();
+            return await _productRepository.GetAllProductByIdAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -33,5 +33,6 @@ namespace CleanArchitectureApp.Application.Services
         {
             return await _productRepository.UpdateProductAsync(product);
         }
+
     }
 }

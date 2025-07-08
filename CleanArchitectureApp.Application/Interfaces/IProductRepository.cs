@@ -11,7 +11,7 @@ namespace CleanArchitectureApp.Domain.Interfaces
     {
         Task<int> AddProductAsync(Product product);
         Task<Product> GetProductByIdAsync(int id);
-        Task<IEnumerable<Product>> GetProductByIdAsync();
+        Task<IEnumerable<Product>> GetAllProductByIdAsync();
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
     }

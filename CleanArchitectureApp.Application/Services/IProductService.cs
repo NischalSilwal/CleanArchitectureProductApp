@@ -14,5 +14,6 @@ namespace CleanArchitectureApp.Application.Services
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<bool> UpdateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
+
     }
 }

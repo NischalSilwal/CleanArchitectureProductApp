@@ -27,49 +27,62 @@ namespace CleanArchitectureApp.Handlers
 
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            // Fetch the existing product
-            var product = await _productService.GetProductByIdAsync(request.Id);
-            if (product == null) return false;
-
-            string fullImagePath = null;
-
-            // Handle Image Update
-            if (request.ProductDTO.ImageFile != null)
+            try
             {
-                // Define the uploads folder inside wwwroot/UploadedImages
-                var uploadsFolder = Path.Combine(_env.WebRootPath, "UploadedImages");
-                Directory.CreateDirectory(uploadsFolder);
+               // await _productService.BeginTransactionAsync();
 
-                // Generate a new unique file name
-                var uniqueFileName = $"{Guid.NewGuid()}_{request.ProductDTO.ImageFile.FileName}";
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                // Fetch the existing product
+                var product = await _productService.GetProductByIdAsync(request.Id);
+                if (product == null) return false;
 
-                // Delete the old image if it exists
-                if (!string.IsNullOrEmpty(product.ImagePath))
+                string fullImagePath = null;
+
+                // Handle Image Update
+                if (request.ProductDTO.ImageFile != null)
                 {
-                    var oldImagePath = Path.Combine(_env.WebRootPath, product.ImagePath.TrimStart('/'));
-                    if (File.Exists(oldImagePath))
+                    // Define the uploads folder inside wwwroot/UploadedImages
+                    var uploadsFolder = Path.Combine(_env.WebRootPath, "UploadedImages");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    // Generate a new unique file name
+                    var uniqueFileName = $"{Guid.NewGuid()}_{request.ProductDTO.ImageFile.FileName}";
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Delete the old image if it exists
+                    if (!string.IsNullOrEmpty(product.ImagePath))
                     {
-                        File.Delete(oldImagePath);
+                        var oldImagePath = Path.Combine(_env.WebRootPath, product.ImagePath.TrimStart('/'));
+                        if (File.Exists(oldImagePath))
+                        {
+                            File.Delete(oldImagePath);
+                        }
                     }
+
+                    // Save the new image file
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await request.ProductDTO.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Update the image path to include the full URL
+                    var relativePath = $"/UploadedImages/{uniqueFileName}";
+                    fullImagePath = $"{_apiBaseUrl}{relativePath}";
                 }
 
-                // Save the new image file
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.ProductDTO.ImageFile.CopyToAsync(fileStream);
-                }
+                // Map updated properties from ProductDTO to Product entity
+                ProductMapper.MapToUpdateProduct(request.ProductDTO, product, fullImagePath);
 
-                // Update the image path to include the full URL
-                var relativePath = $"/UploadedImages/{uniqueFileName}";
-                fullImagePath = $"{_apiBaseUrl}{relativePath}";
+                // Update the product in the repository
+                return await _productService.UpdateProductAsync(product);
+                // Commit the transaction
+              //  await _productService.CommitTransactionAsync();
             }
-
-            // Map updated properties from ProductDTO to Product entity
-            ProductMapper.MapToUpdateProduct(request.ProductDTO, product, fullImagePath);
-
-            // Update the product in the repository
-            return await _productService.UpdateProductAsync(product);
+            catch (Exception ex)
+            {
+                // Rollback the transaction in case of error
+                //await _productService.RollbackTransactionAsync();
+                throw new Exception("An error occurred while updating the product.", ex);
+            }
         }
     }
 }
