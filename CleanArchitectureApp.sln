@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitectureApp.Infras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitectureApp.Application", "CleanArchitectureApp.Application\CleanArchitectureApp.Application.csproj", "{C9048578-B71D-4B24-82DE-322E787F9919}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureApp.Domain", "CleanArchitectureApp.Domain\CleanArchitectureApp.Domain.csproj", "{F12916AF-ABBD-46D9-B6CC-EFAB991D64CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchitectureApp.Domain", "CleanArchitectureApp.Domain\CleanArchitectureApp.Domain.csproj", "{F12916AF-ABBD-46D9-B6CC-EFAB991D64CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitectureTest", "ArchitectureTest\ArchitectureTest.csproj", "{21504620-C6EE-493D-A22F-230F5B81E2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F12916AF-ABBD-46D9-B6CC-EFAB991D64CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F12916AF-ABBD-46D9-B6CC-EFAB991D64CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F12916AF-ABBD-46D9-B6CC-EFAB991D64CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21504620-C6EE-493D-A22F-230F5B81E2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21504620-C6EE-493D-A22F-230F5B81E2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21504620-C6EE-493D-A22F-230F5B81E2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21504620-C6EE-493D-A22F-230F5B81E2E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
